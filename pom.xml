@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.andromeda.pippo</groupId>
     <artifactId>pippo-contact-route</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1-SNAPSHOT</version>
     <url>https://github.com/rygel/pippo-contact-route</url>
     <description>A contact route for Pippo.</description>
 
