@@ -13,7 +13,7 @@
     <groupId>io.andromeda.pippo</groupId>
     <artifactId>pippo-contact-route</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <url>https://github.com/rygel/fragments</url>
+    <url>https://github.com/rygel/pippo-contact-route</url>
     <description>A contact route for Pippo.</description>
 
     <properties>
@@ -88,10 +88,9 @@
     </distributionManagement>
 
     <scm>
-        <connection>scm:git:https://github.com/rygel/fragments.git</connection>
-        <developerConnection>scm:git:https://github.com/rygel/fragments.git</developerConnection>
-        <url>scm:git:git@github.com/rygel/fragments.git</url>
-        <tag>release-0.0.4</tag>
+        <connection>scm:git:https://github.com/rygel/pippo-contact-route.git</connection>
+        <developerConnection>scm:git:https://github.com/rygel/pippo-contact-route.git</developerConnection>
+        <url>scm:git:git@github.com/rygel/pippo-contact-route.git</url>
     </scm>
 
     <build>
