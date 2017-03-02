@@ -20,7 +20,7 @@ public class ContactRoute extends RouteGroup {
     private static final String TITLE_ID = "title";
     private static final String SUCCESS_ID = "success";
     private static final String ID_NAME = "name";
-    private static final String ID_EMAIL = "useremail";
+    private static final String ID_EMAIL = "email";
     private static final String ID_SUBJECT = "subject";
     private static final String ID_MESSAGE = "message";
     //
@@ -42,10 +42,13 @@ public class ContactRoute extends RouteGroup {
 
             String name = routeContext.getParameter(ID_NAME).toString();
             String useremail = routeContext.getParameter(ID_EMAIL).toString();
-            String subject = routeContext.getParameter(ID_SUBJECT).toString();
+            String subject = configuration.getFixedSubject();
+            if (configuration.getHasSubject()) {
+                subject = routeContext.getParameter(ID_SUBJECT).toString();
+            }
             String message = routeContext.getParameter(ID_MESSAGE).toString();
 
-            LOGGER.info(String.format("name: %s, useremail: %s, subject: %s, message: %s", name, useremail, subject, message));
+            LOGGER.info(String.format("name: %s, email: %s, subject: %s, message: %s", name, useremail, subject, message));
             context.put(ID_NAME, name);
             context.put(ID_EMAIL, useremail);
             context.put(ID_SUBJECT, subject);

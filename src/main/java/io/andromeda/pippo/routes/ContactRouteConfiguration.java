@@ -11,6 +11,9 @@ public class ContactRouteConfiguration {
     private String recipientAddress;
     private String fromName;
     private String fromAddress;
+    private boolean hasSubject;
+    private String fixedSubject = "Default Subject";
+    private boolean hasTelephone;
 
     public ContactRouteConfiguration(String url, String template, String formTitle, String recipientName,
                                      String recipientAddress, String fromName, String fromAddress) {
@@ -22,6 +25,8 @@ public class ContactRouteConfiguration {
         this.fromName = fromName;
         this.fromAddress = fromAddress;
     }
+
+    /********** Getters ***********************************************************************************************/
 
     public String getUrl() {
         return url;
@@ -49,5 +54,31 @@ public class ContactRouteConfiguration {
 
     public String getFromAddress() {
         return fromAddress;
+    }
+
+    public boolean getHasSubject() {
+        return hasSubject;
+    }
+
+    public String getFixedSubject() {
+        return fixedSubject;
+    }
+
+    public boolean getHasTelephone() {
+        return hasTelephone;
+    }
+
+    /********** Setters ***********************************************************************************************/
+
+    public void setHasSubject(boolean hasSubject) {
+        this.hasSubject = hasSubject;
+    }
+
+    public void setFixedSubject(String fixedSubject) {
+        this.fixedSubject = fixedSubject;
+    }
+
+    public void setHasTelephone(boolean hasTelephone) {
+        this.hasTelephone = hasTelephone;
     }
 }
