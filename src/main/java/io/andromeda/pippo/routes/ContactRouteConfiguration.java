@@ -1,4 +1,22 @@
+/*
+ * Copyright (C) 2017 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package io.andromeda.pippo.routes;
+
+import java.io.File;
+import java.util.Map;
 
 /**
  * Created by Alexander on 20.02.2017.
@@ -14,6 +32,8 @@ public class ContactRouteConfiguration {
     private boolean hasSubject;
     private String fixedSubject = "Default Subject";
     private boolean hasTelephone;
+    private File simplejavamailConfiguration;
+    private Map<String, String> additionalFields;
 
     public ContactRouteConfiguration(String url, String template, String formTitle, String recipientName,
                                      String recipientAddress, String fromName, String fromAddress) {
@@ -68,6 +88,14 @@ public class ContactRouteConfiguration {
         return hasTelephone;
     }
 
+    public File getSimplejavamailConfiguration() {
+        return simplejavamailConfiguration;
+    }
+
+    public Map<String, String> getAdditionalFields() {
+        return additionalFields;
+    }
+
     /********** Setters ***********************************************************************************************/
 
     public void setHasSubject(boolean hasSubject) {
@@ -80,5 +108,13 @@ public class ContactRouteConfiguration {
 
     public void setHasTelephone(boolean hasTelephone) {
         this.hasTelephone = hasTelephone;
+    }
+
+    public void setSimplejavamailConfiguration(File simplejavamailConfiguration) {
+        this.simplejavamailConfiguration = simplejavamailConfiguration;
+    }
+
+    public void setAdditionalFields(Map<String, String> additionalFields) {
+        this.additionalFields.putAll(additionalFields);
     }
 }

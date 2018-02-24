@@ -1,9 +1,24 @@
+/*
+ * Copyright (C) 2017 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package io.andromeda.pippo.routes;
 
 import org.apache.commons.validator.routines.EmailValidator;
 import org.simplejavamail.email.Email;
-import org.simplejavamail.util.ConfigLoader;
 import org.simplejavamail.mailer.Mailer;
+import org.simplejavamail.util.ConfigLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ro.pippo.core.route.RouteGroup;
@@ -29,6 +44,11 @@ public class ContactRoute extends RouteGroup {
 
     public ContactRoute(ContactRouteConfiguration configuration, Map<String, Object> defaultContext) {
         super(configuration.getUrl());
+
+        /* Override the default Simple Java Mail configuration */
+        if (configuration.getSimplejavamailConfiguration() != null) {
+            ConfigLoader.loadProperties(configuration.getSimplejavamailConfiguration(), false);
+        }
 
         this.configuration = configuration;
 
@@ -119,6 +139,21 @@ public class ContactRoute extends RouteGroup {
             return false;
         }
         return true;
+    }
+
+    private String createMessageText(Map<String, Object> context) {
+        String result = "";
+        Map<String, String> additionalFields = configuration.getAdditionalFields();
+        if (additionalFields != null) {
+            for (Map.Entry<String, String> entry : additionalFields.entrySet()) {
+                if (context.containsKey(entry.getKey())) {
+                    result += String.format("%s: %s%n", entry.getValue(),context.get(entry.getKey()));
+                }
+            }
+        }
+        result += (String) context.get(ID_MESSAGE);
+
+        return result;
     }
 
 }

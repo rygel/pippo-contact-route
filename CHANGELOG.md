@@ -7,8 +7,19 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 #### Fixed
 
 #### Changed
+
+#### Added
+
+#### Removed
+
+
+### [1.0.2] - 2018-02-22
+
+#### Fixed
+
+#### Changed
 - Made subject optional.
-- 
+- Updated simplejavamail to 4.2.1
 #### Added
 
 #### Removed
