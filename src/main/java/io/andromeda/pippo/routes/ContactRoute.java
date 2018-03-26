@@ -17,17 +17,20 @@ package io.andromeda.pippo.routes;
 
 import org.apache.commons.validator.routines.EmailValidator;
 import org.simplejavamail.email.Email;
+import org.simplejavamail.email.EmailBuilder;
 import org.simplejavamail.mailer.Mailer;
+import org.simplejavamail.mailer.MailerBuilder;
 import org.simplejavamail.util.ConfigLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ro.pippo.core.Session;
 import ro.pippo.core.route.RouteGroup;
 
-import javax.mail.Message;
 import java.util.Map;
 
 /**
  * The route handling the contacts page
+ * @author Alexander Brandt
  */
 public class ContactRoute extends RouteGroup {
     /** The logger instance for this class. */
@@ -37,8 +40,10 @@ public class ContactRoute extends RouteGroup {
     private static final String ID_NAME = "name";
     private static final String ID_EMAIL = "email";
     private static final String ID_SUBJECT = "subject";
+    private static final String ID_TELEPHONE = "telephone";
     private static final String ID_MESSAGE = "message";
     //
+    private static final String ERR_SENDING = "message";
     private ContactRouteConfiguration configuration;
 
 
@@ -63,16 +68,22 @@ public class ContactRoute extends RouteGroup {
             String name = routeContext.getParameter(ID_NAME).toString();
             String useremail = routeContext.getParameter(ID_EMAIL).toString();
             String subject = configuration.getFixedSubject();
+            String telephone = "";
             if (configuration.getHasSubject()) {
                 subject = routeContext.getParameter(ID_SUBJECT).toString();
             }
+            if (configuration.getHasTelephone()) {
+                telephone = routeContext.getParameter(ID_SUBJECT).toString();
+            }
             String message = routeContext.getParameter(ID_MESSAGE).toString();
 
-            LOGGER.info(String.format("name: %s, email: %s, subject: %s, message: %s", name, useremail, subject, message));
-            context.put(ID_NAME, name);
-            context.put(ID_EMAIL, useremail);
-            context.put(ID_SUBJECT, subject);
-            context.put(ID_MESSAGE, message);
+            LOGGER.info(String.format("name: %s, email: %s, subject: %s, telephone %s, message: %s", name, useremail, subject, telephone, message));
+            Session session = routeContext.getSession();
+            session.put(ID_NAME, name);
+            session.put(ID_EMAIL, useremail);
+            session.put(ID_SUBJECT, subject);
+            session.put(ID_TELEPHONE, telephone);
+            session.put(ID_MESSAGE, message);
 
             boolean everythingOk = true;
             everythingOk = checkName(name, context) && everythingOk;
@@ -94,14 +105,16 @@ public class ContactRoute extends RouteGroup {
     private void sendContactEmail(Map<String, Object> context) {
         ConfigLoader.loadProperties("conf/simplejavamail.properties", false); // optional default
 
-        Email email = new Email();
-        email.addRecipient(configuration.getRecipientName(), configuration.getRecipientAddress(), Message.RecipientType.TO);
-        email.setFromAddress(configuration.getFromName(), configuration.getFromAddress());
-        email.setReplyToAddress((String) context.get(ID_NAME), (String) context.get(ID_EMAIL));
-        email.setSubject((String) context.get(ID_SUBJECT));
-        email.setText((String) context.get(ID_MESSAGE));
+        Email email = EmailBuilder.startingBlank()
+                .from(configuration.getFromName(), configuration.getFromAddress())
+                .to(configuration.getRecipientName(), configuration.getRecipientAddress())
+                .withReplyTo((String) context.get(ID_NAME), (String) context.get(ID_EMAIL))
+                .withSubject((String) context.get(ID_SUBJECT))
+                .withPlainText((String) context.get(ID_MESSAGE))
+                .buildEmail();
 
-        new Mailer().sendMail(email);
+        Mailer mailer = MailerBuilder.buildMailer();
+        mailer.sendMail(email);
     }
 
     private boolean checkName(final String name, Map<String, Object> context) {

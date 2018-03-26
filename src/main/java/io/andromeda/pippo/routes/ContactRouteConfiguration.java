@@ -19,7 +19,7 @@ import java.io.File;
 import java.util.Map;
 
 /**
- * Created by Alexander on 20.02.2017.
+ * @author Alexander Brandt
  */
 public class ContactRouteConfiguration {
     private String url;
@@ -34,6 +34,7 @@ public class ContactRouteConfiguration {
     private boolean hasTelephone;
     private File simplejavamailConfiguration;
     private Map<String, String> additionalFields;
+    private boolean isTest = false;
 
     public ContactRouteConfiguration(String url, String template, String formTitle, String recipientName,
                                      String recipientAddress, String fromName, String fromAddress) {
@@ -96,6 +97,10 @@ public class ContactRouteConfiguration {
         return additionalFields;
     }
 
+    public boolean getIsTest() {
+        return isTest;
+    }
+
     /********** Setters ***********************************************************************************************/
 
     public void setHasSubject(boolean hasSubject) {
@@ -116,5 +121,9 @@ public class ContactRouteConfiguration {
 
     public void setAdditionalFields(Map<String, String> additionalFields) {
         this.additionalFields.putAll(additionalFields);
+    }
+
+    public void setIsTest(boolean isTest) {
+        this.isTest = isTest;
     }
 }
