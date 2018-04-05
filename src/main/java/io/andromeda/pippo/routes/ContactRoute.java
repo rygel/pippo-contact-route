@@ -26,6 +26,9 @@ import org.slf4j.LoggerFactory;
 import ro.pippo.core.Session;
 import ro.pippo.core.route.RouteGroup;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.Map;
 
 /**
@@ -58,6 +61,7 @@ public class ContactRoute extends RouteGroup {
         this.configuration = configuration;
 
         GET(configuration.getUrl(), routeContext -> {
+            Session session = routeContext.getRequest().getSession(true);
             routeContext.render(configuration.getTemplate(), defaultContext);
         });
 
@@ -65,25 +69,20 @@ public class ContactRoute extends RouteGroup {
             Map<String, Object> context = defaultContext;
             context.put(TITLE_ID, configuration.getFormTitle());
 
-            String name = routeContext.getParameter(ID_NAME).toString();
+            String name = decode(routeContext.getParameter(ID_NAME).toString());
             String useremail = routeContext.getParameter(ID_EMAIL).toString();
             String subject = configuration.getFixedSubject();
             String telephone = "";
             if (configuration.getHasSubject()) {
-                subject = routeContext.getParameter(ID_SUBJECT).toString();
+                subject = decode(routeContext.getParameter(ID_SUBJECT).toString());
             }
             if (configuration.getHasTelephone()) {
-                telephone = routeContext.getParameter(ID_SUBJECT).toString();
+                telephone = routeContext.getParameter(ID_TELEPHONE).toString();
             }
-            String message = routeContext.getParameter(ID_MESSAGE).toString();
+            String message = decode(routeContext.getParameter(ID_MESSAGE).toString());
 
             LOGGER.info(String.format("name: %s, email: %s, subject: %s, telephone %s, message: %s", name, useremail, subject, telephone, message));
             Session session = routeContext.getSession();
-            session.put(ID_NAME, name);
-            session.put(ID_EMAIL, useremail);
-            session.put(ID_SUBJECT, subject);
-            session.put(ID_TELEPHONE, telephone);
-            session.put(ID_MESSAGE, message);
 
             boolean everythingOk = true;
             everythingOk = checkName(name, context) && everythingOk;
@@ -92,25 +91,35 @@ public class ContactRoute extends RouteGroup {
             everythingOk = checkMessage(message, context) && everythingOk;
 
             if (!everythingOk) {
-                context.put(SUCCESS_ID, "false");
+                session.put(ID_NAME, name);
+                session.put(ID_EMAIL, useremail);
+                session.put(ID_SUBJECT, subject);
+                session.put(ID_TELEPHONE, telephone);
+                session.put(ID_MESSAGE, message);
+                session.put(SUCCESS_ID, "false");
                 routeContext.render(configuration.getTemplate(), context);
             } else {
-                sendContactEmail(context);
-                context.put(SUCCESS_ID, "true");
+                sendContactEmail(name, useremail, subject, telephone, message);
+                session.put(SUCCESS_ID, "true");
                 routeContext.render(configuration.getTemplate(), context);
             }
         });
     }
 
-    private void sendContactEmail(Map<String, Object> context) {
+    private void sendContactEmail(String name, String useremail, String subject, String telephone, String message) {
         ConfigLoader.loadProperties("conf/simplejavamail.properties", false); // optional default
+
+        String newMessage = message;
+        if (configuration.getHasTelephone()) {
+            newMessage = "Telephone: " + telephone + System.lineSeparator() + System.lineSeparator() + newMessage;
+        }
 
         Email email = EmailBuilder.startingBlank()
                 .from(configuration.getFromName(), configuration.getFromAddress())
                 .to(configuration.getRecipientName(), configuration.getRecipientAddress())
-                .withReplyTo((String) context.get(ID_NAME), (String) context.get(ID_EMAIL))
-                .withSubject((String) context.get(ID_SUBJECT))
-                .withPlainText((String) context.get(ID_MESSAGE))
+                .withReplyTo(name, useremail)
+                .withSubject(subject)
+                .withPlainText(newMessage)
                 .buildEmail();
 
         Mailer mailer = MailerBuilder.buildMailer();
@@ -167,6 +176,16 @@ public class ContactRoute extends RouteGroup {
         result += (String) context.get(ID_MESSAGE);
 
         return result;
+    }
+
+    private static String decode(String input) {
+        try {
+            String temporary = URLEncoder.encode(input, "ISO-8859-1");
+            return URLDecoder.decode(temporary, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            LOGGER.error(e.toString());
+        }
+        return input;
     }
 
 }

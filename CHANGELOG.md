@@ -2,12 +2,14 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-### [1.0.3][unreleased]
+### [1.0.3] - 2018-04-05
 
 #### Fixed
 
 #### Changed
 - Added optional telephone field.
+- Added decoding of the name, subject and message fields.
+- Switched to using sessions instead of context.
 
 #### Added
 
