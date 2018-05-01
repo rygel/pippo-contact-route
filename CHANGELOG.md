@@ -2,6 +2,20 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+### [2.0.0] - 2018-05-02
+
+#### Fixed
+
+#### Changed
+- Complete re-work. Now unlimited fields can be added to a form.
+- Upgraded SimpleJavaMail to 5.0.1
+
+#### Added
+- Support GDPR (DSGVO in Germany) via a checkbox.
+- Added internationalization support, via Pippo.
+
+#### Removed
+
 ### [1.0.3] - 2018-04-05
 
 #### Fixed

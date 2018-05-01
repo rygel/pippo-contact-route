@@ -16,9 +16,9 @@
 package io.andromeda.pippo.routes;
 
 import java.io.File;
-import java.util.Map;
 
 /**
+ * The configuration class for the contact route.
  * @author Alexander Brandt
  */
 public class ContactRouteConfiguration {
@@ -29,13 +29,19 @@ public class ContactRouteConfiguration {
     private String recipientAddress;
     private String fromName;
     private String fromAddress;
-    private boolean hasSubject;
-    private String fixedSubject = "Default Subject";
-    private boolean hasTelephone;
     private File simplejavamailConfiguration;
-    private Map<String, String> additionalFields;
     private boolean isTest = false;
 
+    /**
+     * Create an instance of the configuration class. The name and email entered by the user of the contact form will be set to the reply to address and name.
+     * @param url the url on which the contact form shall be available. Normally it is "contact", which will be translated to yourdomain.com/contact.
+     * @param template the name of the template which shall be used to render the get and post actions.
+     * @param formTitle the title of the form.
+     * @param recipientName The name of the recipient. This should be your name. It will be used when creating the email.
+     * @param recipientAddress The email address of the recipient. This should be your email address. It will be used when creating the email.
+     * @param fromName The name of the sender. This should be the name of your website application. It will be used when creating the email.
+     * @param fromAddress The email address of the sender. This should be your website's email address. It will be used when creating the email.
+     */
     public ContactRouteConfiguration(String url, String template, String formTitle, String recipientName,
                                      String recipientAddress, String fromName, String fromAddress) {
         this.url = url;
@@ -77,24 +83,8 @@ public class ContactRouteConfiguration {
         return fromAddress;
     }
 
-    public boolean getHasSubject() {
-        return hasSubject;
-    }
-
-    public String getFixedSubject() {
-        return fixedSubject;
-    }
-
-    public boolean getHasTelephone() {
-        return hasTelephone;
-    }
-
     public File getSimplejavamailConfiguration() {
         return simplejavamailConfiguration;
-    }
-
-    public Map<String, String> getAdditionalFields() {
-        return additionalFields;
     }
 
     public boolean getIsTest() {
@@ -102,25 +92,8 @@ public class ContactRouteConfiguration {
     }
 
     /********** Setters ***********************************************************************************************/
-
-    public void setHasSubject(boolean hasSubject) {
-        this.hasSubject = hasSubject;
-    }
-
-    public void setFixedSubject(String fixedSubject) {
-        this.fixedSubject = fixedSubject;
-    }
-
-    public void setHasTelephone(boolean hasTelephone) {
-        this.hasTelephone = hasTelephone;
-    }
-
     public void setSimplejavamailConfiguration(File simplejavamailConfiguration) {
         this.simplejavamailConfiguration = simplejavamailConfiguration;
-    }
-
-    public void setAdditionalFields(Map<String, String> additionalFields) {
-        this.additionalFields.putAll(additionalFields);
     }
 
     public void setIsTest(boolean isTest) {
