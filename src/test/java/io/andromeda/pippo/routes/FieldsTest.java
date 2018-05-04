@@ -8,8 +8,6 @@ import io.andromeda.pippo.routes.fields.MessageField;
 import io.andromeda.pippo.routes.fields.PhoneField;
 import io.andromeda.pippo.routes.fields.SubjectField;
 import org.junit.Test;
-import org.mockito.Mockito;
-import ro.pippo.core.route.RouteContext;
 
 import java.util.Map;
 import java.util.TreeMap;

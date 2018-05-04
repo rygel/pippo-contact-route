@@ -33,7 +33,7 @@ public class FixedSubjectField extends Field {
 
     @Override
     public  boolean validate(Map<String, String> messages) {
-        if (value.equals("")) {
+        if ("".equals(value)) {
             messages.put(alert, Constants.MESSAGE_ID_SUBJECT_EMPTY);
             return false;
         }

@@ -33,7 +33,7 @@ public class EmailField extends Field {
 
     @Override
     public  boolean validate(Map<String, String> messages) {
-        if (value.isEmpty()) {
+        if ("".equals(value)) {
             messages.put(alert, Constants.MESSAGE_ID_EMAIL_EMPTY);
             return false;
         }

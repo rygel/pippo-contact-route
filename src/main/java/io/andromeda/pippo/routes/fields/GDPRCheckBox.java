@@ -31,7 +31,7 @@ public class GDPRCheckBox extends Field {
 
     @Override
     public  boolean validate(Map<String, String> messages) {
-        if (value.equals("")) {
+        if ("".equals(value)) {
             messages.put(alert, Constants.MESSAGE_ID_GDPR_FALSE);
             return false;
         }
