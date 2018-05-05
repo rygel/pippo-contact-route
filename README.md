@@ -1,6 +1,7 @@
 Pippo Contact Route
 ===================
 [![Build Status](https://travis-ci.org/rygel/pippo-contact-route.svg?branch=master)](https://travis-ci.org/rygel/pippo-contact-route)
+[![Sonarcloud](https://sonarcloud.io/api/project_badges/measure?project=io.andromeda.pippo%3Apippo-contact-route&metric=alert_status)](https://sonarcloud.io/api/project_badges/measure?project=io.andromeda.pippo%3Apippo-contact-route&metric=alert_status)
 [![Coverage Status](https://coveralls.io/repos/github/rygel/pippo-contact-route/badge.svg?branch=master)](https://coveralls.io/github/rygel/pippo-contact-route?branch=master)
 [![Maven Central](http://img.shields.io/maven-central/v/io.andromeda.pippo/pippo-contact-route.svg)](http://search.maven.org/#search|ga|1|io.andromeda.pippo)
 [![Javadocs](http://www.javadoc.io/badge/io.andromeda.pippo/pippo-contact-route.svg)](http://www.javadoc.io/doc/io.andromeda/pippo-contact-route)
