@@ -1,0 +1,18 @@
+language: java
+sudo: false
+install: true
+addons:
+  sonarcloud:
+    organization: "rygel-github"
+    token:
+      secure: "Y/TuvMxExs9599CqbeC/iWl8eRXeGrb2SPBrLcRRDosGDpcCurl4ltAU2pw/LjjMOGv5V92bFX/PAGZlUoxvhbAYORaaFtGN+y5hZaoDqreIxLcSilmXD96Qk9e50dn6ViUl7gYegt73XgdS+VhbVajk+cbizKmAR4exVf9Ol16PaZZc5dB2PyvRIuJZ24fukFS/3QrIQD4wZ4N5Jx0NPpxJ8eUba1rwxv3wg4TwzN/W6RwHYJuykvOnEn+CpgW5V7pf5ZoTiDixaev4M+YdAjdXMMIfZg4nM3/tUZsPA344YgBqKB/dmnl8+HUiXF0t54joqyaXpy5p3mr0dtWbtiunzrPuJeP1Vf8R8VV7t8DZ31ejiosNZyGYeDk1eW7ohfa5LY+wutpeU5IVQehHDQNPNzp10DPcdbjW5q3SIJOt2pdl0G7lSqIboQZOtKVaXc3MFITODDnYmtjGg0ATQJ+ZEFZczkbCeeDcq8rMab8LRK1zo/Apoa3HPg62RlHz3gvyLtqO+qznPUK9BkCq9s5nnWxWsh39NANwK54hZ+OsnOZ5IjRMWzluuAUAGKu0V/XpTb6wUNQhjirqsOJqafnwvHOJKElwICCwOAxKuQLdrSLtSj9yK0zdSevtaEZ1iRKDtnZuidB6dvc6mO/12lZDqVV1v/N9e1Vr/2v0/GQ="
+jdk:
+  - oraclejdk8
+script:
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar
+cache:
+  directories:
+    - '$HOME/.m2/repository'
+    - '$HOME/.sonar/cache'
+after_success:
+  - mvn clean cobertura:cobertura coveralls:report

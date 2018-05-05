@@ -1,5 +1,11 @@
 Pippo Contact Route
 ===================
+[![Build Status](https://travis-ci.org/rygel/pippo-contact-route.svg?branch=master)](https://travis-ci.org/rygel/pippo-contact-route)
+[![Coverage Status](https://coveralls.io/repos/github/rygel/pippo-contact-route/badge.svg?branch=master)](https://coveralls.io/github/rygel/pippo-contact-route?branch=master)
+[![Maven Central](http://img.shields.io/maven-central/v/io.andromeda.pippo/pippo-contact-route.svg)](http://search.maven.org/#search|ga|1|io.andromeda.pippo)
+[![Javadocs](http://www.javadoc.io/badge/io.andromeda.pippo/pippo-contact-route.svg)](http://www.javadoc.io/doc/io.andromeda/pippo-contact-route)
+
+
 A custom implementation of a [Pippo](pippo.ro) RouteGroup to handle email sending of a contact form. It uses [Simple Java Mail](http://www.simplejavamail.org) internally.
 
 ## Rationale
@@ -14,7 +20,7 @@ As it uses only the concept of `RouteGroup`s in Pippo it is compatible with all 
         <dependency>
             <groupId>io.andromeda.pippo</groupId>
             <artifactId>pippo-contact-route</artifactId>
-            <version>2.0.0</version>
+            <version>2.0.1</version>
         </dependency>
    ```
 
